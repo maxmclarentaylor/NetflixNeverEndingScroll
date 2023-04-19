@@ -4,28 +4,28 @@ import { moveVideoBackwards, moveVideoForwards } from "./videoOptionsHelper";
 const updateFilmSelectionThrottle = () => {
   let currentTime: number = 0;
   let currentTimeOut: ReturnType<typeof setTimeout>;
-  let currentDirection = "";
+  let previousDirection = "";
   return (
+    updateStyle: () => void,
     updateFilmList: () => void,
     updatelistPosition: () => void,
-    direction: string,
-    oppositeClose: () => void
+    currentDirection: string
   ) => {
     if (currentTime === 0) {
       currentTime = Date.now();
-      // currentDirection = direction;
+      previousDirection = currentDirection;
     }
-    let time = Date.now();
-    let timeLeft = currentTime + 1000 >= time ? currentTime + 1000 - time : -1;
-    clearTimeout(currentTimeOut);
-    // currentDirection !== direction
-    //   ? (oppositeClose(), (currentDirection = direction))
-    //   : null;
-    currentTimeOut = setTimeout(() => {
-      updateFilmList();
-      updatelistPosition();
-      currentTime = 0;
-    }, timeLeft);
+    if (previousDirection === currentDirection) {
+      let time = Date.now();
+      let timeLeft = currentTime + 900 >= time ? currentTime + 900 - time : -1;
+      updateStyle();
+      clearTimeout(currentTimeOut);
+      currentTimeOut = setTimeout(() => {
+        updateFilmList();
+        updatelistPosition();
+        currentTime = 0;
+      }, timeLeft);
+    }
   };
 };
 
@@ -37,8 +37,8 @@ export const useThrottle = (
   clickForwards: number
 ) => {
   const [currentFilms, updateCurrentFilms] = useState<string[]>([]);
-  const [backwards, updateBackwards] = useState(false);
-  const [forwards, updateForwards] = useState(false);
+  const [backwards, updateBackwards] = useState<boolean>(false);
+  const [forwards, updateForwards] = useState<boolean>(false);
 
   const newFilmArraybackwards = useCallback(() => {
     return moveVideoBackwards(allFilms, currentFilms);
@@ -54,27 +54,31 @@ export const useThrottle = (
 
   useEffect(() => {
     if (clickbackwards > 0) {
-      updateBackwards(true);
       throttleScroll(
+        () => {
+          updateBackwards(true);
+          updateForwards(false);
+        },
         () => updateCurrentFilms(newFilmArraybackwards()),
         () => updateBackwards(false),
-        "back",
-        () => updateForwards(false)
+        "back"
       );
     }
   }, [clickbackwards]);
 
-  // useEffect(() => {
-  //   if (clickForwards > 0) {
-  //     updateForwards(true);
-  //     throttleScroll(
-  //       () => updateCurrentFilms(newFilmArrayForwards()),
-  //       () => updateForwards(false),
-  //       "forward",
-  //       () => updateBackwards(false),
-  //     );
-  //   }
-  // }, [clickForwards]);
+  useEffect(() => {
+    if (clickForwards > 0) {
+      throttleScroll(
+        () => {
+          updateForwards(true);
+          updateBackwards(false);
+        },
+        () => updateCurrentFilms(newFilmArrayForwards()),
+        () => updateForwards(false),
+        "forward"
+      );
+    }
+  }, [clickForwards]);
 
   return {
     currentFilms,

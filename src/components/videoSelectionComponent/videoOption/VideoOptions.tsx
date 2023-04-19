@@ -3,7 +3,7 @@ import styles from "./videoOption.module.scss";
 import { useThrottle } from "./VideoSelectionThrottle";
 import { v4 as uuidv4 } from "uuid";
 
-export const VideoOption = memo(function VideoOption(){
+export const VideoOption = memo(function VideoOption() {
   const [allFilms, updateFilms] = useState<string[]>([
     "Star Wars",
     "Boogie Nights",
@@ -35,7 +35,11 @@ export const VideoOption = memo(function VideoOption(){
   const [clickbackwards, updateClickbackwards] = useState(0);
   const [clickForwards, updateClickForwardss] = useState(0);
 
-  const { currentFilms, backwards, forwards } = useThrottle(allFilms, clickbackwards, clickForwards);
+  const { currentFilms, backwards, forwards } = useThrottle(
+    allFilms,
+    clickbackwards,
+    clickForwards
+  );
 
   return (
     <div>
@@ -46,16 +50,25 @@ export const VideoOption = memo(function VideoOption(){
       >
         back
       </div>
-      <div style={{ marginTop: "5rem" }}
-       onClick={() => {
-        updateClickForwardss(clickForwards + 1);
-      }}
-      >forwards</div>
+      <div
+        style={{ marginTop: "5rem" }}
+        onClick={() => {
+          updateClickForwardss(clickForwards + 1);
+        }}
+      >
+        forwards
+      </div>
       <div className={`${styles.headWrap}`}>
         <div
-          className={`${!backwards ? styles.offSet : styles.offSetTrue} ${
-            styles.wrapperItem
-          } ${backwards ? styles.animation : ""}`}
+          className={`${
+            !backwards && !forwards
+              ? styles.offSet
+              : backwards
+              ? styles.offSetTrue
+              : styles.offSetForward
+          } ${styles.wrapperItem} ${
+            backwards || forwards ? styles.animation : ""
+          }`}
         >
           {currentFilms.map((value) => {
             return (
