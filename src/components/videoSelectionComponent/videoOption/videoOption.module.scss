@@ -1,0 +1,42 @@
+.headWrap {
+  white-space: nowrap;
+  width: 90vw;
+  margin: 0 5vw;
+  border-width: 10px;
+  border-style: solid;
+  border-color: red;
+  overflow: visible;
+}
+
+.carouselItem {
+  display: inline-block;
+  width: 20%;
+  height: 30vh;
+  text-align: right;
+  font-size: 20px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+}
+
+.wrapperItem {
+  width: 100%;
+}
+
+.offSet {
+  transform: translate3d(-120%, 0, 0);
+}
+
+.offSetTrue {
+     transform: translate3d(-20%, 0, 0);
+}
+
+.offSetForward {
+  transform: translate3d(-220%, 0, 0);
+}
+
+.animation {
+  transition-property: transform;
+  transition-duration: .75s;
+  transition-delay: 0s;
+}
