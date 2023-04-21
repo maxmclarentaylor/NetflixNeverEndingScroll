@@ -1,4 +1,4 @@
-import { VideoSelectionComponent } from '@/components/videoSelectionComponent'
+import { VideoSelectionComponent } from '@/components/videoSelectionPage'
 
 
 type testData = {

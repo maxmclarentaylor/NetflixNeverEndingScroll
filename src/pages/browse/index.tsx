@@ -1,4 +1,4 @@
-import { VideoSelectionComponent } from '@/components/videoSelectionComponent'
+import { VideoSelectionComponent } from '@/components/videoSelectionPage'
 import videoJson from './videoJson.json'
 import axios from 'axios';
 
