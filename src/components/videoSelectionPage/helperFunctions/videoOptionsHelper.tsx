@@ -14,7 +14,7 @@ export const moveVideoBackwards = (
 ) => {
   let key = allFilms.indexOf(currentFilms[0]);
   let newArray = [
-    [...allFilms].slice((key - 5 < 0 ? 0 : key - 5), key),
+    [...allFilms].slice(key - 5 < 0 ? 0 : key - 5, key),
     ...removeFilms(12, 5, currentFilms),
   ].flat();
 
@@ -30,7 +30,6 @@ export const moveVideoForwards = (
   allFilms: string[],
   currentFilms: string[]
 ) => {
-  console.log("test 4")
   let key = allFilms.indexOf(currentFilms[currentFilms.length - 1]);
   let newArray = [
     ...removeFilms(0, 5, currentFilms),
@@ -43,12 +42,4 @@ export const moveVideoForwards = (
 
   let number = 17 - newArray.length;
   return [...newArray, [...allFilms].slice(0, number)].flat();
-};
-
-export const moveVideoFirstClick = (
-  allFilms: string[],
-  currentFilms: string[]
-) => {
-  console.log("test 5")
-  return [allFilms[allFilms.length - 1], ...currentFilms];
 };

@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import {
   moveVideoBackwards,
   moveVideoForwards,
-  moveVideoFirstClick,
 } from "../helperFunctions/videoOptionsHelper";
 
 const updateFilmSelectionThrottle = () => {
@@ -41,24 +40,23 @@ const updateFilmSelectionThrottle = () => {
 
 const throttleScroll = updateFilmSelectionThrottle();
 
-type Forwards = {
-  forwards: boolean;
-  firstFilmList: boolean;
-  throttleClick: boolean;
-};
+
+
+type moveOptions = {
+  currentFilms: string[],
+  forwards: boolean,
+  moveBackwards: boolean
+}
 
 export const useThrottle = (
   allFilms: string[],
   clickbackwards: number,
-  clickForwards: number
-) => {
+  clickForwards: number,
+  width: number
+): moveOptions => {
   const [currentFilms, updateCurrentFilms] = useState<string[]>([]);
-  const [backwards, updateBackwards] = useState<boolean>(false);
-  const [forwards, updateForwards] = useState<Forwards>({
-    forwards: false,
-    firstFilmList: true,
-    throttleClick: true,
-  });
+  const [moveBackwards, updateBackwards] = useState<boolean>(false);
+  const [forwards, updateForwards] = useState<boolean>(false);
 
   const newFilmArraybackwards = useCallback(() => {
     return moveVideoBackwards(allFilms, currentFilms);
@@ -68,12 +66,17 @@ export const useThrottle = (
     return moveVideoForwards(allFilms, currentFilms);
   }, [allFilms, currentFilms]);
 
-  const newFilmArrayFirstClick = useCallback(() => {
-    return moveVideoFirstClick(allFilms, currentFilms);
-  }, [allFilms, currentFilms]);
-
   useEffect(() => {
-    updateCurrentFilms([...allFilms].slice(0, 16));
+    if(width === 0) {
+      if(window.innerWidth <= 1400 && window.innerWidth > 1100) width = 5
+      // if(window.innerWidth <= 1100 && window.innerWidth > 800) width = 4
+      // if(window.innerWidth <= 1400) width = 5
+      // if(window.innerWidth <= 1400) width = 5
+      if(window.innerWidth > 1400) width = 6
+    }
+    let first = width === 5 ? 19 : 18
+    let second = width === 5 ? 11 : 13
+    updateCurrentFilms([[...allFilms].slice(first),[...allFilms].slice(0, second)].flat());
     return () => {
       throttleScroll(
         () => {},
@@ -83,18 +86,14 @@ export const useThrottle = (
         true
       );
     };
-  }, []);
+  }, [width]);
 
   useEffect(() => {
     if (clickbackwards > 0) {
       throttleScroll(
         () => {
           updateBackwards(true);
-          updateForwards({
-            forwards: false,
-            firstFilmList: false,
-            throttleClick: false,
-          });
+          updateForwards(false);
         },
         () => updateCurrentFilms(newFilmArraybackwards()),
         () => updateBackwards(false),
@@ -108,26 +107,16 @@ export const useThrottle = (
     if (clickForwards > 0) {
       throttleScroll(
         () => {
-          updateForwards({
-            forwards: true,
-            firstFilmList: false,
-            throttleClick : clickForwards === 1 ? true : false
-          });
+          updateForwards(true);
           updateBackwards(false);
         },
         () =>
           updateCurrentFilms(
-            clickForwards === 1
-              ? newFilmArrayFirstClick()
-              : newFilmArrayForwards()
+         newFilmArrayForwards()
           ),
         () =>
-          updateForwards({
-            forwards: false,
-            firstFilmList: false,
-            throttleClick : false
-          }),
-        clickForwards === 1 ? "first" : "forward",
+          updateForwards(false),
+        "forward",
         false
       );
     }
@@ -135,7 +124,7 @@ export const useThrottle = (
 
   return {
     currentFilms,
-    backwards,
+    moveBackwards,
     forwards,
   };
 };

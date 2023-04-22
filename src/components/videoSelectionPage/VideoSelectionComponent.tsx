@@ -5,12 +5,19 @@ import { VideoOption } from "./videoOption/VideoOptions";
 import "video.js/dist/video-js.css";
 import styles from "./videoSelection.module.scss";
 
+type ResizeEvent = {
+  target: {
+    innerWidth: number;
+  };
+};
+
 export const VideoSelectionComponent = ({ test }: { test: string }) => {
   const [opacity, opacityUpdate] = useState(1);
   const [moreInfo, updateMoreInfo] = useState({
     show: false,
     videoLocation: 0,
   });
+  const [width, updateWidth] = useState(0);
 
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<player>();
@@ -29,6 +36,19 @@ export const VideoSelectionComponent = ({ test }: { test: string }) => {
       },
     ],
   };
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      // console.log(window.innerWidth)
+      if (window.innerWidth > 1400) updateWidth(6);
+      if (window.innerWidth <= 1400 && window.innerWidth > 1100) updateWidth(5);
+      if (window.innerWidth === 1100) updateWidth(4);
+      if (window.innerWidth === 800) updateWidth(3);
+      if (window.innerWidth === 500) updateWidth(2);
+    });
+
+    return () => window.removeEventListener("resize", () => {});
+  }, []);
 
   useEffect(() => {
     if (opacity === 1) {
@@ -52,6 +72,7 @@ export const VideoSelectionComponent = ({ test }: { test: string }) => {
     }
   }, [videoJsOptions, videoRef, opacity]);
 
+  //SEE IF I CAN REFACTOR TIS TO USE TRANSITION-PROPERTY INSTEAD
   useEffect(() => {
     // fade out screen opacity
     if (opacity >= 0 && opacity < 1) {
@@ -100,7 +121,7 @@ export const VideoSelectionComponent = ({ test }: { test: string }) => {
           </div>
         )}
       </div>
-      <VideoOption key={1} />
+      <VideoOption key={1} width={width} />
     </div>
   );
 };

@@ -4,7 +4,11 @@ import styles from "./videoOption.module.scss";
 import { useThrottle } from "../customHooks/VideoSelectionThrottle";
 import { v4 as uuidv4 } from "uuid";
 
-export const VideoOption = memo(function VideoOption() {
+type VideoOption = {
+  width: number;
+};
+
+export const VideoOption = memo(function VideoOption({ width }: VideoOption) {
   const [allFilms, updateFilms] = useState<string[]>([
     "11111111111",
     "22222222",
@@ -36,33 +40,41 @@ export const VideoOption = memo(function VideoOption() {
   const [clickbackwards, updateClickbackwards] = useState(0);
   const [clickForwards, updateClickForwardss] = useState(0);
 
-  const { currentFilms, backwards, forwards } = useThrottle(
+  const { currentFilms, moveBackwards, forwards } = useThrottle(
     allFilms,
     clickbackwards,
-    clickForwards
+    clickForwards,
+    width
   );
 
-  const offSetInitalFilmlist = useMemo(() => {
-    if (forwards.forwards && !forwards.firstFilmList) {
-      return styles.firstOffSet;
-    }
-
-    if (!forwards.firstFilmList && !forwards.forwards) {
-      return styles.offSet;
-    }
-  }, [forwards]);
+  // worth noting there were issues with next and styles components
 
   const offSet = useMemo(() => {
-    return !backwards && !forwards.forwards
+    if(currentFilms.length === 20) {
+      return styles.offSet
+    }
+    if(currentFilms.length === 17){
+      return styles.offSet6
+    }
+    return !moveBackwards && !forwards
       ? styles.offSet
-      : backwards
+      : moveBackwards
       ? styles.offSetTrue
       : styles.offSetForward;
-  }, [backwards, forwards, clickForwards]);
+  }, [moveBackwards, forwards, clickForwards, currentFilms]);
+
+  const carouselItem = useMemo(() => {
+    if(currentFilms.length === 20) {
+      return styles.carouselItem
+    }
+    if(currentFilms.length === 17){
+      return styles.carouselItem5
+    }
+  },[currentFilms])
 
   const animation = useMemo(() => {
-    return backwards || forwards.forwards ? styles.animation : "";
-  }, [backwards, forwards]);
+    return moveBackwards || forwards ? styles.animation : "";
+  }, [moveBackwards, forwards]);
 
   return (
     <div>
@@ -83,13 +95,13 @@ export const VideoOption = memo(function VideoOption() {
       </div>
       <div className={`${styles.headWrap}`}>
         <div
-          className={`${
-            forwards.throttleClick ? offSetInitalFilmlist : offSet
-          } ${styles.wrapperItem} ${animation}`}
-        >
-          {currentFilms.map((value) => {
+          className={`${styles.initialOverflowCover} ${styles.initialOverflowCoverAnimation}`}
+          style={{ opacity: clickForwards < 1 ? 1 : 0 }}
+        ></div>
+        <div className={`${offSet} ${styles.wrapperItem} ${animation}`}>
+          {currentFilms.map((value, index) => {
             return (
-              <div key={value} className={styles.carouselItem}>
+              <div key={value} className={carouselItem}>
                 {value}
               </div>
             );

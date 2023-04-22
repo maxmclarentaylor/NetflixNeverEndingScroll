@@ -10,6 +10,17 @@
 
 .carouselItem {
   display: inline-block;
+  width: 16.7%;
+  height: 30vh;
+  text-align: right;
+  font-size: 20px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+}
+
+.carouselItem5 {
+  display: inline-block;
   width: 20%;
   height: 30vh;
   text-align: right;
@@ -19,24 +30,50 @@
   border-color: black;
 }
 
+// @media (max-width: 1400px) {
+//   .carouselItem {
+//     width: 20%;
+//   }
+// }
+
+@media (max-width: 1100px) {
+  .carouselItem {
+    width: 25%;
+  }
+}
+
+@media (max-width: 800px) {
+  .carouselItem {
+    width: 33.3%;
+  }
+}
+
+@media (max-width: 500px) {
+  .carouselItem {
+    width: 50%;
+  }
+}
+
 .wrapperItem {
   width: 100%;
 }
 
-.first {
-  transform: translate3d(0%, 0, 0);
-}
-
-.firstOffSet {
-  transform: translate3d(-100%, 0, 0);
-}
-
 .offSet {
+  transform: translate3d(-117%, 0, 0);
+}
+
+.offSet6 {
   transform: translate3d(-120%, 0, 0);
 }
 
+// @media (max-width: 1400px) {
+//   .offSet {
+//     transform: translate3d(-120%, 0, 0);
+//   }
+// }
+
 .offSetTrue {
-     transform: translate3d(-20%, 0, 0);
+  transform: translate3d(-20%, 0, 0);
 }
 
 .offSetForward {
@@ -45,6 +82,20 @@
 
 .animation {
   transition-property: transform;
-  transition-duration: .75s;
+  transition-duration: 0.75s;
   transition-delay: 0s;
+}
+
+.initialOverflowCover {
+  position: absolute;
+  width: 6vw;
+  background-color: orange;
+  margin-left: -6vw;
+  height: 30vh;
+  z-index: 2;
+}
+
+.initialOverflowCoverAnimation {
+  transition-property: opacity;
+  transition-duration: 0.75s;
 }
