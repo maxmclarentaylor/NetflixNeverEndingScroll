@@ -15,7 +15,6 @@ function Page({ data }: testData) {
   // This gets called on every request
   export async function getServerSideProps(context) {
 
-    console.log(context.query.country)
 
     const data = {
         test: context.query.country

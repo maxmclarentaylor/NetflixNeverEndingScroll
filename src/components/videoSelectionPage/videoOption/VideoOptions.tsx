@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback, memo, useMemo } from "react";
 import styled, { css } from "styled-components";
 import styles from "./videoOption.module.scss";
 import { useThrottle } from "../customHooks/VideoSelectionThrottle";
+import { correctAnimationStyle, selectCarouseWidth } from "../helperFunctions/videoStylesHelpers";
 import { v4 as uuidv4 } from "uuid";
 
 type VideoOption = {
@@ -47,30 +48,16 @@ export const VideoOption = memo(function VideoOption({ width }: VideoOption) {
     width
   );
 
-  // worth noting there were issues with next and styles components
+  // worth noting there were issues with next and styled components
 
   const offSet = useMemo(() => {
-    if(currentFilms.length === 20) {
-      return styles.offSet
-    }
-    if(currentFilms.length === 17){
-      return styles.offSet6
-    }
-    return !moveBackwards && !forwards
-      ? styles.offSet
-      : moveBackwards
-      ? styles.offSetTrue
-      : styles.offSetForward;
+    console.log(correctAnimationStyle(moveBackwards, forwards, currentFilms))
+    return correctAnimationStyle(moveBackwards, forwards, currentFilms);
   }, [moveBackwards, forwards, clickForwards, currentFilms]);
 
   const carouselItem = useMemo(() => {
-    if(currentFilms.length === 20) {
-      return styles.carouselItem
-    }
-    if(currentFilms.length === 17){
-      return styles.carouselItem5
-    }
-  },[currentFilms])
+    return selectCarouseWidth(currentFilms);
+  }, [currentFilms]);
 
   const animation = useMemo(() => {
     return moveBackwards || forwards ? styles.animation : "";
@@ -101,7 +88,10 @@ export const VideoOption = memo(function VideoOption({ width }: VideoOption) {
         <div className={`${offSet} ${styles.wrapperItem} ${animation}`}>
           {currentFilms.map((value, index) => {
             return (
-              <div key={value} className={carouselItem}>
+              <div
+                key={value}
+                className={`${carouselItem} ${styles.carouselNonWithWidth}`}
+              >
                 {value}
               </div>
             );

@@ -1,8 +1,9 @@
 import { FC, useEffect, useRef, useState } from "react";
 import videojs from "video.js";
 import player from "video.js/dist/types/player.js";
-import { VideoOption } from "./videoOption/VideoOptions";
 import "video.js/dist/video-js.css";
+import { VideoOption } from "./videoOption/VideoOptions";
+import { setWindowWidth } from "./helperFunctions/videoPageWidthHelpers";
 import styles from "./videoSelection.module.scss";
 
 type ResizeEvent = {
@@ -27,7 +28,7 @@ export const VideoSelectionComponent = ({ test }: { test: string }) => {
     autoplay: true,
     controls: false,
     responsive: true,
-    muted: false,
+    muted: true,
     fluid: true,
     sources: [
       {
@@ -39,12 +40,7 @@ export const VideoSelectionComponent = ({ test }: { test: string }) => {
 
   useEffect(() => {
     window.addEventListener("resize", () => {
-      // console.log(window.innerWidth)
-      if (window.innerWidth > 1400) updateWidth(6);
-      if (window.innerWidth <= 1400 && window.innerWidth > 1100) updateWidth(5);
-      if (window.innerWidth === 1100) updateWidth(4);
-      if (window.innerWidth === 800) updateWidth(3);
-      if (window.innerWidth === 500) updateWidth(2);
+      setWindowWidth(updateWidth);
     });
 
     return () => window.removeEventListener("resize", () => {});

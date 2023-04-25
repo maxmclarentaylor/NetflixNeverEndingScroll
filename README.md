@@ -41,3 +41,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ##
 
 Important points to update woth the read me - styled components can cause erros with Next.js - why we are using inline styles with callbacks - the solutions to getting the props to work are ugly and hacky and not worth it
+
+Also make not of why the css changes based off the useMemo and not using traditional break points
