@@ -36,24 +36,33 @@ export const VideoOption = memo(function VideoOption({ width }: VideoOption) {
     "23 23 23 23 23 23 23",
     "J24 24  24 24 24 24",
     "25 25 25 25 25 25",
+    "26 26 26 26 26 26 26",
+    "27 27 27 27 27 27 27",
+    "28 28 28 28 28 28",
+    "29 29 29 29 29 29 29",
+    "30 30 30 30 30 30 30 30"
   ]);
 
   const [clickbackwards, updateClickbackwards] = useState(0);
   const [clickForwards, updateClickForwardss] = useState(0);
 
+  const id = useMemo(() => {
+    return uuidv4()
+  }, [])
+
   const { currentFilms, moveBackwards, forwards } = useThrottle(
     allFilms,
     clickbackwards,
     clickForwards,
-    width
+    width,
+    id
   );
 
   // worth noting there were issues with next and styled components
 
   const offSet = useMemo(() => {
-    console.log(correctAnimationStyle(moveBackwards, forwards, currentFilms))
     return correctAnimationStyle(moveBackwards, forwards, currentFilms);
-  }, [moveBackwards, forwards, clickForwards, currentFilms]);
+  }, [moveBackwards, forwards, currentFilms]);
 
   const carouselItem = useMemo(() => {
     return selectCarouseWidth(currentFilms);

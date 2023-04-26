@@ -4,13 +4,8 @@ import player from "video.js/dist/types/player.js";
 import "video.js/dist/video-js.css";
 import { VideoOption } from "./videoOption/VideoOptions";
 import { setWindowWidth } from "./helperFunctions/videoPageWidthHelpers";
-import styles from "./videoSelection.module.scss";
+import styles from "./styles/videoSelection.module.scss";
 
-type ResizeEvent = {
-  target: {
-    innerWidth: number;
-  };
-};
 
 export const VideoSelectionComponent = ({ test }: { test: string }) => {
   const [opacity, opacityUpdate] = useState(1);

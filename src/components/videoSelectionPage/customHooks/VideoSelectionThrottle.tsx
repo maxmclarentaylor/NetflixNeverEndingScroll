@@ -6,53 +6,17 @@ import {
   updateResizeArray,
 } from "../helperFunctions/videoOptionsUpdateArrayHelpers";
 
-const updateFilmSelectionThrottle = () => {
-  let currentTime: number = 0;
-  let currentTimeOut: ReturnType<typeof setTimeout>;
-  let previousDirection = "";
-  return (
-    updateStyle: () => void,
-    updateFilmList: () => void,
-    updatelistPosition: () => void,
-    currentDirection: string,
-    cleanUp: boolean,
-    resizeCallBack?: (value: string) => void
-  ) => {
-    if (cleanUp) {
-      clearTimeout(currentTimeOut);
-      currentTime = 0;
-      return;
-    }
-    if (currentDirection === "resize" && currentTime === 0) {
-      return;
-    }
-    if (currentTime === 0) {
-      currentTime = Date.now();
-      previousDirection = currentDirection;
-    }
-    if (
-      previousDirection === currentDirection ||
-      currentDirection === "resize"
-    ) {
-      let time = Date.now();
-      let timeLeft =
-        currentTime + 1000 >= time ? currentTime + 1000 - time : -1;
-      currentDirection === "resize" ? null : updateStyle();
-      clearTimeout(currentTimeOut);
-      currentTimeOut = setTimeout(() => {
-        if (currentDirection === "resize") {
-          resizeCallBack ? resizeCallBack(previousDirection) : null;
-        } else {
-          updateFilmList();
-          updatelistPosition();
-        }
-        currentTime = 0;
-      }, timeLeft);
-    }
-  };
+type throttleNumberObject = {
+  [key: string]: number;
 };
 
-const throttleScroll = updateFilmSelectionThrottle();
+type previousDirectionThrottleType = {
+  [key: string]: string;
+};
+
+type timeOutType = {
+  [key: string]: ReturnType<typeof setTimeout>;
+};
 
 type moveOptions = {
   currentFilms: string[];
@@ -60,11 +24,63 @@ type moveOptions = {
   moveBackwards: boolean;
 };
 
+const updateFilmSelectionThrottle = () => {
+  let currentTime: throttleNumberObject = {};
+  let currentTimeOut: timeOutType = {};
+  let previousDirection: previousDirectionThrottleType = {};
+  return (
+    updateStyle: () => void,
+    updateFilmList: () => void,
+    updatelistPosition: () => void,
+    currentDirection: string,
+    cleanUp: boolean,
+    throttleId: string,
+    resizeCallBack?: (value: string) => void
+  ) => {
+    if (cleanUp) {
+      clearTimeout(currentTimeOut[throttleId]);
+      currentTime[throttleId] = 0;
+      return;
+    }
+    if (currentDirection === "resize" && !currentTime[throttleId]) {
+      return;
+    }
+    if (!currentTime[throttleId]) {
+      currentTime[throttleId] = Date.now();
+      previousDirection[throttleId] = currentDirection;
+    }
+    if (
+      previousDirection[throttleId] === currentDirection ||
+      currentDirection === "resize"
+    ) {
+      let time = Date.now();
+      let timeLeft =
+        currentTime[throttleId] + 1000 >= time
+          ? currentTime[throttleId] + 1000 - time
+          : -1;
+      currentDirection === "resize" ? null : updateStyle();
+      clearTimeout(currentTimeOut[throttleId]);
+      currentTimeOut[throttleId] = setTimeout(() => {
+        if (currentDirection === "resize") {
+          resizeCallBack ? resizeCallBack(previousDirection[throttleId]) : null;
+        } else {
+          updateFilmList();
+          updatelistPosition();
+        }
+        delete currentTime[throttleId];
+      }, timeLeft);
+    }
+  };
+};
+
+const throttleScroll = updateFilmSelectionThrottle();
+
 export const useThrottle = (
   allFilms: string[],
   clickbackwards: number,
   clickForwards: number,
-  width: number
+  width: number,
+  id: string
 ): moveOptions => {
   const [currentFilms, updateCurrentFilms] = useState<string[]>([]);
   const [moveBackwards, updateBackwards] = useState<boolean>(false);
@@ -100,14 +116,15 @@ export const useThrottle = (
         () => {},
         () => {},
         "",
-        true
+        true,
+        id
       );
     };
   }, []);
 
   useEffect(() => {
-    const { first, second } = correctArrayLength(width);
-    let newArray = updateResizeArray(allFilms, first, second);
+    const { first, second, length } = correctArrayLength(width);
+    let newArray = updateResizeArray(allFilms, first, second, currentFilms, length);
     updateCurrentFilms(newArray);
 
     throttleScroll(
@@ -116,6 +133,7 @@ export const useThrottle = (
       () => {},
       "resize",
       false,
+      id,
       (value: string) => {
         if (value === "back") {
           updateCurrentFilms(newFilmArraybackwards(width, newArray));
@@ -138,7 +156,8 @@ export const useThrottle = (
         () => updateCurrentFilms(newFilmArraybackwards()),
         () => updateBackwards(false),
         "back",
-        false
+        false,
+        id
       );
     }
   }, [clickbackwards]);
@@ -153,7 +172,8 @@ export const useThrottle = (
         () => updateCurrentFilms(newFilmArrayForwards()),
         () => updateForwards(false),
         "forward",
-        false
+        false,
+        id
       );
     }
   }, [clickForwards]);

@@ -23,8 +23,42 @@
   }
 
   .offSetDefaul4Items {
-    transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-125%, 0, 0);
   }
+
+  .offSetBackwards4Items {
+    transform: translate3d(-25%, 0, 0);
+  }
+
+  .offSetForward4Items {
+    transform: translate3d(-225%, 0, 0);
+  }
+
+  .offSetDefault3Items {
+    transform: translate3d(-133.2%, 0, 0);
+  }
+
+  .offSetBackwards3Items {
+    transform: translate3d(-33.3%, 0, 0);
+  }
+
+  .offSetForward3Items {
+    transform: translate3d(-233.1%, 0, 0);
+  }
+
+  .offSetDefault2Items {
+    transform: translate3d(-150%, 0, 0);
+  }
+
+  .offSetBackwards2Items {
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  .offSetForward2Items {
+    transform: translate3d(-250%, 0, 0);
+  }
+
+
 
   .carouselItem6 {
     width: 16.7%;

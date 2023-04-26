@@ -32,6 +32,7 @@
     "@testing-library/dom": "^9.2.0",
     "@testing-library/react": "^14.0.0",
     "@types/styled-components": "^5.1.26",
+    "@types/uuid": "^9.0.1",
     "@types/video.js": "^7.3.51",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",

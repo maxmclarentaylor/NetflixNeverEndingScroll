@@ -8,7 +8,6 @@
   overflow: visible;
 }
 
-
 .carouselNonWithWidth {
   display: inline-block;
   height: 30vh;
@@ -19,51 +18,8 @@
   border-color: black;
 }
 
-
-@media (max-width: 1100px) {
-  .carouselItem {
-    width: 25%;
-  }
-}
-
-@media (max-width: 800px) {
-  .carouselItem {
-    width: 33.3%;
-  }
-}
-
-@media (max-width: 500px) {
-  .carouselItem {
-    width: 50%;
-  }
-}
-
 .wrapperItem {
   width: 100%;
-}
-
-.offSetDefault5Items {
-  transform: translate3d(-120%, 0, 0);
-}
-
-.offSetDefault6Items {
-  transform: translate3d(-117%, 0, 0);
-}
-
-.offSetBackwards6Items {
-  transform: translate3d(-16.8%, 0, 0);
-}
-
-.offSetBackwards5Items {
-  transform: translate3d(-20%, 0, 0);
-}
-
-.offSetForward6Items {
-  transform: translate3d(-217.2%, 0, 0);
-}
-
-.offSetForward5Items {
-  transform: translate3d(-220%, 0, 0);
 }
 
 .animation {
