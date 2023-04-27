@@ -5,6 +5,7 @@ import "video.js/dist/video-js.css";
 import { VideoOption } from "./videoOption/VideoOptions";
 import { setWindowWidth } from "./helperFunctions/videoPageWidthHelpers";
 import styles from "./styles/videoSelection.module.scss";
+import { imageArray } from "../../data/imageArray"
 
 
 export const VideoSelectionComponent = ({ test }: { test: string }) => {
@@ -112,7 +113,9 @@ export const VideoSelectionComponent = ({ test }: { test: string }) => {
           </div>
         )}
       </div>
-      <VideoOption key={1} width={width} />
+      <VideoOption key={1} width={width} imageArray={imageArray}/>
+      <VideoOption key={2} width={width} imageArray={imageArray}/>
+      <VideoOption key={3} width={width} imageArray={imageArray}/>
     </div>
   );
 };

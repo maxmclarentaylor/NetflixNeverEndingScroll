@@ -58,3 +58,32 @@ export const selectCarouseWidth = (currentFilms: string[]): string => {
   }
   return "";
 };
+
+type videoPositionViewArray = {
+  array: number[];
+  position: number;
+};
+
+export const videoPositionViewArray = (
+  currentFilms: string[],
+  allFilms: string[]
+): videoPositionViewArray => {
+  if (currentFilms.length === 0) {
+    return {
+      array: [],
+      position: 0,
+    };
+  }
+  let length: number = (currentFilms.length - 2) / 3;
+  let array = new Array(Math.round(allFilms.length / length))
+    .fill(1)
+    .map((value, index) => index + 1);
+
+  let key = allFilms.indexOf(currentFilms[length + 1]);
+  let position = allFilms.slice(0, key).length / length;
+
+  return {
+    array,
+    position,
+  };
+};
