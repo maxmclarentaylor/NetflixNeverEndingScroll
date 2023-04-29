@@ -1,9 +1,10 @@
 import { forwardsVariables, backwardsVariables } from "./arrayVariables";
+import { IndividualFilm } from "../types/videoSelectionPageTypes";
 
 const removeFilms = (
   value1: number,
   value2: number,
-  currentFilms: string[]
+  currentFilms: IndividualFilm[]
 ) => {
   let updateArray = [...currentFilms];
   updateArray.splice(value1, value2);
@@ -11,11 +12,11 @@ const removeFilms = (
 };
 
 const newArrayMoveBackwards = (
-  allFilms: string[],
+  allFilms: IndividualFilm[],
   key: number,
   newKeyBackPosition: number,
   removeKeyBackPosition: number,
-  currentFilms: string[]
+  currentFilms: IndividualFilm[]
 ) => {
   return [
     [...allFilms].slice(
@@ -27,10 +28,10 @@ const newArrayMoveBackwards = (
 };
 
 export const moveVideoBackwards = (
-  allFilms: string[],
-  currentFilms: string[],
+  allFilms: IndividualFilm[],
+  currentFilms: IndividualFilm[],
   width: number
-): string[] => {
+): IndividualFilm[] => {
   const { newKeyBackPosition, removeKeyBackPosition, correctArrayLengthBack } =
     backwardsVariables(width);
 
@@ -53,11 +54,11 @@ export const moveVideoBackwards = (
 };
 
 const newArrayMoveForwards = (
-  allFilms: string[],
+  allFilms: IndividualFilm[],
   key: number,
   newKeyForward: number,
   removeKeyForward: number,
-  currentFilms: string[]
+  currentFilms: IndividualFilm[]
 ) => {
   return [
     ...removeFilms(0, newKeyForward, currentFilms),
@@ -66,10 +67,10 @@ const newArrayMoveForwards = (
 };
 
 export const moveVideoForwards = (
-  allFilms: string[],
-  currentFilms: string[],
+  allFilms: IndividualFilm[],
+  currentFilms: IndividualFilm[],
   width: number
-): string[] => {
+): IndividualFilm[] => {
   const { newKeyForward, removeKeyForward, correctArrayLength } =
     forwardsVariables(width);
 
@@ -121,10 +122,10 @@ export const correctArrayLength = (width: number) => {
 };
 
 const getArray1 = (
-  allFilms: string[],
+  allFilms: IndividualFilm[],
   arrayStartingPosition: number,
   length: number
-): string[] => {
+): IndividualFilm[] => {
   let startIndex = length + 1 - arrayStartingPosition;
 
   return arrayStartingPosition - (length + 1) < 0
@@ -139,10 +140,10 @@ const getArray1 = (
 };
 
 const getArray2 = (
-  allFilms: string[],
+  allFilms: IndividualFilm[],
   arrayStartingPosition: number,
   length: number
-): string[] => {
+): IndividualFilm[] => {
   return arrayStartingPosition + (length * 2 + 1) > allFilms.length - 1
     ? [
         [...allFilms].slice(arrayStartingPosition),
@@ -158,10 +159,10 @@ const getArray2 = (
 };
 
 export const updateResizeArray = (
-  allFilms: string[],
+  allFilms: IndividualFilm[],
   first: number,
   second: number,
-  currentFilms: string[],
+  currentFilms: IndividualFilm[],
   length: number
 ) => {
   let startFilm = currentFilms[(currentFilms.length - 2) / 3 + 1];
@@ -171,7 +172,10 @@ export const updateResizeArray = (
       [...allFilms].slice(0, second),
     ].flat();
   }
-  let arrayStartingPosition = allFilms.indexOf(startFilm);
+  let arrayStartingPosition = 0;
+  allFilms.map((v, i) =>
+    v.title === startFilm.title ? (arrayStartingPosition = i) : null
+  );
 
   let array1 = getArray1(allFilms, arrayStartingPosition, length);
 

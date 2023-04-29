@@ -1,25 +1,24 @@
 import styles from "../styles/videoList.module.scss";
-
-type VideoList = {
-  offSet: string;
-  currentFilms: string[];
-  carouselItem: string;
-  animation: string;
-};
+import {
+  VideoListType,
+} from "../types/videoSelectionPageTypes";
 
 export const VideoList = ({
   offSet,
   currentFilms,
   carouselItem,
   animation,
-}: VideoList) => {
+  testKey,
+}: VideoListType) => {
   return (
     <div className={`${offSet} ${styles.wrapperItem} ${animation}`}>
       {currentFilms.map((value, index) => {
         return (
           <img
-            src={value}
-            key={value}
+            data-testid={testKey + value.title}
+            src={value.srcUrl}
+            key={value.title}
+            role={(index + 1).toString()}
             className={`${carouselItem} ${styles.carouselNonWidth}`}
           ></img>
         );

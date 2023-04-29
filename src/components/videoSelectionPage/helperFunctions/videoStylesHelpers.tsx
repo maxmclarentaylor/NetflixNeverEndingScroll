@@ -1,9 +1,13 @@
+import {
+  IndividualFilm,
+  videoPositionViewArrayType,
+} from "../types/videoSelectionPageTypes";
 import styles from "../styles/offsetValues.module.scss";
 
 export const correctAnimationStyle = (
   moveBackwards: boolean,
   forwards: boolean,
-  currentFilms: string[]
+  currentFilms: IndividualFilm[]
 ): string => {
   if (currentFilms.length === 20) {
     return !moveBackwards && !forwards
@@ -40,7 +44,7 @@ export const correctAnimationStyle = (
     : styles.offSetForward2Items;
 };
 
-export const selectCarouseWidth = (currentFilms: string[]): string => {
+export const selectCarouseWidth = (currentFilms: IndividualFilm[]): string => {
   if (currentFilms.length === 20) {
     return styles.carouselItem6;
   }
@@ -59,15 +63,10 @@ export const selectCarouseWidth = (currentFilms: string[]): string => {
   return "";
 };
 
-type videoPositionViewArray = {
-  array: number[];
-  position: number;
-};
-
 export const videoPositionViewArray = (
-  currentFilms: string[],
-  allFilms: string[]
-): videoPositionViewArray => {
+  currentFilms: IndividualFilm[],
+  allFilms: IndividualFilm[]
+): videoPositionViewArrayType => {
   if (currentFilms.length === 0) {
     return {
       array: [],

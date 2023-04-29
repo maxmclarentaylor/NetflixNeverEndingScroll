@@ -1,14 +1,4 @@
-type backwardsVariablesObject = {
-  newKeyBackPosition: number;
-  removeKeyBackPosition: number;
-  correctArrayLengthBack: number;
-};
-
-type forwardObjectVariables = {
-  newKeyForward: number;
-  removeKeyForward: number;
-  correctArrayLength: number;
-};
+import { backwardsVariablesObject, forwardObjectVariables} from '../types/videoSelectionPageTypes'
 
 const findWidth = (width: number): number => {
   if (window.innerWidth > 1400) width = 6;

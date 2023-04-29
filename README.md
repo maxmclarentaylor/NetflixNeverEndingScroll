@@ -1,45 +1,13 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+I am currently in the process of replicating the Netflix front-end website as a personal upskilling project.
 
-## Getting Started
+This segment of the application shows my version of the Netflix never-ending scroll.
 
-First, run the development server:
+On first glance it may seem like a simple carousel. However when you look closer at the Netflix ui, it becomes clear it is challenging piece of code which includes extensive use of various hooks, complex conditional styling and array manipluation, with a custom throttle hook.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+To run the application after installing all of the packages simply run npm run dev.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This is the first iteration. Styled components will be brought in at a later date.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+The scroll has been fully tested. 
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-
-##
-
-Important points to update woth the read me - styled components can cause erros with Next.js - why we are using inline styles with callbacks - the solutions to getting the props to work are ugly and hacky and not worth it
-
-Also make not of why the css changes based off the useMemo and not using traditional break points
+Please feel free to manipulate the times of the throttle found @src/components/videoSelectionPage/customHooks/VideoSelectionThrottle.tsx to see the behaviour of the carousel with more clarity.

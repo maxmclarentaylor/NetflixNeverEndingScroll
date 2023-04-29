@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback, memo, useMemo } from "react";
 import Image from "next/image";
 import { v4 as uuidv4 } from "uuid";
-import styles from "../styles/videoOption.module.scss";
 import { useThrottle } from "../customHooks/VideoSelectionThrottle";
 import { VideoPositionFlow } from "../videoPositionFlow/videoPositionFlow";
 import { VideoList } from "../videoList/VideoList";
@@ -10,19 +9,21 @@ import {
   selectCarouseWidth,
   videoPositionViewArray,
 } from "../helperFunctions/videoStylesHelpers";
+import {
+  IndividualFilm,
+  VideoOptionType,
+} from "../types/videoSelectionPageTypes";
 import chev from "../assets/chevron.png";
 import chevLeft from "../assets/chevron-left.png";
+import styles from "../styles/videoOption.module.scss";
 
-type VideoOption = {
-  width: number;
-  imageArray: string[];
-};
 
 export const VideoOption = memo(function VideoOption({
   width,
   imageArray,
-}: VideoOption) {
-  const [allFilms, updateFilms] = useState<string[]>(imageArray);
+  testKey,
+}: VideoOptionType) {
+  const [allFilms, updateFilms] = useState<IndividualFilm[]>(imageArray);
 
   const [clickbackwards, updateClickbackwards] = useState(0);
   const [clickForwards, updateClickForwardss] = useState(0);
@@ -64,6 +65,7 @@ export const VideoOption = memo(function VideoOption({
       ></div>
       {clickForwards > 0 && (
         <div
+          data-testid={testKey + " " + "back"}
           onClick={() => {
             clickForwards > 0 ? updateClickbackwards(clickbackwards + 1) : null;
           }}
@@ -78,6 +80,7 @@ export const VideoOption = memo(function VideoOption({
         </div>
       )}
       <div
+        data-testid={testKey + " " + "forward"}
         className={`${styles.moveForwardsChevron}`}
         onClick={() => {
           updateClickForwardss(clickForwards + 1);
@@ -98,6 +101,7 @@ export const VideoOption = memo(function VideoOption({
         currentFilms={currentFilms}
         carouselItem={carouselItem}
         animation={animation}
+        testKey={testKey}
       />
     </div>
   );

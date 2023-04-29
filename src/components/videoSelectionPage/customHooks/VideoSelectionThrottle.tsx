@@ -5,24 +5,13 @@ import {
   correctArrayLength,
   updateResizeArray,
 } from "../helperFunctions/videoOptionsUpdateArrayHelpers";
-
-type throttleNumberObject = {
-  [key: string]: number;
-};
-
-type previousDirectionThrottleType = {
-  [key: string]: string;
-};
-
-type timeOutType = {
-  [key: string]: ReturnType<typeof setTimeout>;
-};
-
-type moveOptions = {
-  currentFilms: string[];
-  forwards: boolean;
-  moveBackwards: boolean;
-};
+import {
+  throttleNumberObject,
+  previousDirectionThrottleType,
+  timeOutType,
+  IndividualFilm,
+  moveOptions,
+} from "../types/videoSelectionPageTypes";
 
 const updateFilmSelectionThrottle = () => {
   let currentTime: throttleNumberObject = {};
@@ -76,18 +65,18 @@ const updateFilmSelectionThrottle = () => {
 const throttleScroll = updateFilmSelectionThrottle();
 
 export const useThrottle = (
-  allFilms: string[],
+  allFilms: IndividualFilm[],
   clickbackwards: number,
   clickForwards: number,
   width: number,
   id: string
 ): moveOptions => {
-  const [currentFilms, updateCurrentFilms] = useState<string[]>([]);
+  const [currentFilms, updateCurrentFilms] = useState<IndividualFilm[]>([]);
   const [moveBackwards, updateBackwards] = useState<boolean>(false);
   const [forwards, updateForwards] = useState<boolean>(false);
 
   const newFilmArraybackwards = useCallback(
-    (newWidth?: number, newCurrentFilms?: string[]) => {
+    (newWidth?: number, newCurrentFilms?: IndividualFilm[]) => {
       return moveVideoBackwards(
         allFilms,
         newCurrentFilms ? newCurrentFilms : currentFilms,
@@ -98,7 +87,7 @@ export const useThrottle = (
   );
 
   const newFilmArrayForwards = useCallback(
-    (newWidth?: number, newCurrentFilms?: string[]) => {
+    (newWidth?: number, newCurrentFilms?: IndividualFilm[]) => {
       return moveVideoForwards(
         allFilms,
         newCurrentFilms ? newCurrentFilms : currentFilms,
@@ -124,7 +113,13 @@ export const useThrottle = (
 
   useEffect(() => {
     const { first, second, length } = correctArrayLength(width);
-    let newArray = updateResizeArray(allFilms, first, second, currentFilms, length);
+    let newArray = updateResizeArray(
+      allFilms,
+      first,
+      second,
+      currentFilms,
+      length
+    );
     updateCurrentFilms(newArray);
 
     throttleScroll(
