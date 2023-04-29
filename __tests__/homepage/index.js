@@ -1,5 +1,5 @@
 import { VideoSelectionComponent } from "../../src/components/videoSelectionPage/VideoSelectionComponent";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 
 describe("Netflix scroll tests", () => {
   test("scroll moves forward correctly", async () => {
@@ -199,12 +199,12 @@ describe("Netflix scroll tests", () => {
   test("resizing the page gives the correct array structure", async () => {
     global.innerWidth = 1500;
     global.dispatchEvent(new Event("resize"));
-    render(<VideoSelectionComponent />);
+    act(() => render(<VideoSelectionComponent />));
     expect(
       screen.getByTestId("firstarrested development").getAttribute("role")
     ).toMatch("8");
     global.innerWidth = 1330;
-    global.dispatchEvent(new Event("resize"));
+    act(() => global.dispatchEvent(new Event("resize")));
     await waitFor(
       () =>
         expect(
@@ -215,7 +215,7 @@ describe("Netflix scroll tests", () => {
       }
     );
     global.innerWidth = 1010;
-    global.dispatchEvent(new Event("resize"));
+    act(() => global.dispatchEvent(new Event("resize")));
     await waitFor(
       () =>
         expect(
@@ -226,7 +226,7 @@ describe("Netflix scroll tests", () => {
       }
     );
     global.innerWidth = 740;
-    global.dispatchEvent(new Event("resize"));
+    act(() => global.dispatchEvent(new Event("resize")));
     await waitFor(
       () =>
         expect(
@@ -237,7 +237,7 @@ describe("Netflix scroll tests", () => {
       }
     );
     global.innerWidth = 400;
-    global.dispatchEvent(new Event("resize"));
+    act(() => global.dispatchEvent(new Event("resize")));
     await waitFor(
       () =>
         expect(

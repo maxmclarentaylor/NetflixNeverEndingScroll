@@ -15,6 +15,7 @@ export const VideoList = ({
       {currentFilms.map((value, index) => {
         return (
           <img
+            alt={value.title}
             data-testid={testKey + value.title}
             src={value.srcUrl}
             key={value.title}

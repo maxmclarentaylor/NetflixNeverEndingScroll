@@ -44,8 +44,8 @@ const updateFilmSelectionThrottle = () => {
     ) {
       let time = Date.now();
       let timeLeft =
-        currentTime[throttleId] + 1200 >= time
-          ? currentTime[throttleId] + 1200 - time
+        currentTime[throttleId] + 1300 >= time
+          ? currentTime[throttleId] + 1300 - time
           : -1;
       currentDirection === "resize" ? null : updateStyle();
       clearTimeout(currentTimeOut[throttleId]);
@@ -109,7 +109,7 @@ export const useThrottle = (
         id
       );
     };
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const { first, second, length } = correctArrayLength(width);
