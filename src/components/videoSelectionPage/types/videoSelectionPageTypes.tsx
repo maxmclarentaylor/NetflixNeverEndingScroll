@@ -1,3 +1,6 @@
+import { Dispatch, SetStateAction} from "react";
+
+
 export type IndividualFilm = {
   title: string;
   srcUrl: string;
@@ -65,3 +68,16 @@ export type throttleNumberObject = {
     position: number;
   };
   
+
+  export type moveBack = {
+    testKey: string;
+    clickForwards: number;
+    clickbackwards: number;
+    updateClickbackwards: Dispatch<SetStateAction<number>>
+  }
+
+  export type moveForwards = {
+    testKey: string;
+    clickForwards: number;
+    updateClickForwards: Dispatch<SetStateAction<number>>
+  }
