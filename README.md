@@ -2,7 +2,7 @@ I am currently in the process of replicating the Netflix front-end website as a 
 
 This segment of the application shows my version of the Netflix never-ending scroll.
 
-On first glance it may seem like a simple carousel. However when you look closer at the Netflix ui, it becomes clear it is challenging piece of code which includes extensive use of various hooks, complex conditional styling and array manipluation, with a custom throttle hook.
+On first glance it may seem like a simple carousel. However when you look closer at the Netflix ui, it becomes clear it is a challenging piece of code which resulted in extensive use of various hooks, complex conditional styling and array manipluation, with a custom throttle hook.
 
 To run the application after installing all of the packages simply run npm run dev.
 
