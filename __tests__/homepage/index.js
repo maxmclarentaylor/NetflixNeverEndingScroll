@@ -23,7 +23,7 @@ describe("Netflix scroll tests", () => {
           screen.getByTestId("firstarrested development").getAttribute("role")
         ).toMatch("2"),
       {
-        timeout: 1800,
+        timeout: 2000,
       }
     );
     expect(

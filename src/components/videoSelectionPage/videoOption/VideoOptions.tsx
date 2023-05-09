@@ -49,8 +49,8 @@ export const VideoOption = memo(function VideoOption({
   }, [currentFilms]);
 
   const positionArray = useMemo(() => {
-    return videoPositionViewArray(currentFilms, allFilms);
-  }, [currentFilms, allFilms]);
+    return videoPositionViewArray(currentFilms, allFilms, forwards, moveBackwards, id);
+  }, [currentFilms, allFilms, forwards, moveBackwards, id]);
 
   const animation = useMemo(() => {
     return moveBackwards || forwards ? styles.animation : "";
