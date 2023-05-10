@@ -4,44 +4,36 @@ import {
 } from "../types/videoSelectionPageTypes";
 import styles from "../styles/offsetValues.module.scss";
 
+const correctOffset = (
+  moveBackwards: boolean,
+  forwards: boolean,
+  length: number
+) => {
+  return !moveBackwards && !forwards
+    ? Math.round((100 / length) * (length + 1))
+    : moveBackwards
+    ? Math.round(100 / length)
+    : Math.round((100 / length) * (length * 2 + 1));
+};
+
 export const correctAnimationStyle = (
   moveBackwards: boolean,
   forwards: boolean,
   currentFilms: IndividualFilm[]
-): string => {
+): number => {
   if (currentFilms.length === 20) {
-    return !moveBackwards && !forwards
-      ? styles.offSetDefault6Items
-      : moveBackwards
-      ? styles.offSetBackwards6Items
-      : styles.offSetForward6Items;
+    return correctOffset(moveBackwards, forwards, 6);
   }
   if (currentFilms.length === 17) {
-    return !moveBackwards && !forwards
-      ? styles.offSetDefault5Items
-      : moveBackwards
-      ? styles.offSetBackwards5Items
-      : styles.offSetForward5Items;
+    return correctOffset(moveBackwards, forwards, 5);
   }
   if (currentFilms.length === 14) {
-    return !moveBackwards && !forwards
-      ? styles.offSetDefaul4Items
-      : moveBackwards
-      ? styles.offSetBackwards4Items
-      : styles.offSetForward4Items;
+    return correctOffset(moveBackwards, forwards, 4);
   }
   if (currentFilms.length === 11) {
-    return !moveBackwards && !forwards
-      ? styles.offSetDefault3Items
-      : moveBackwards
-      ? styles.offSetBackwards3Items
-      : styles.offSetForward3Items;
+    return correctOffset(moveBackwards, forwards, 3);
   }
-  return !moveBackwards && !forwards
-    ? styles.offSetDefault2Items
-    : moveBackwards
-    ? styles.offSetBackwards2Items
-    : styles.offSetForward2Items;
+  return correctOffset(moveBackwards, forwards, 2);
 };
 
 export const selectCarouseWidth = (currentFilms: IndividualFilm[]): string => {
@@ -79,7 +71,23 @@ export const videoPositionViewArray = (
     .map((value, index) => index + 1);
 
   let key = allFilms.indexOf(currentFilms[length + 1]);
-  let position = allFilms.slice(0, key).length / length;
+  key = key - (key % length) + 1;
+  let position = Math.floor(allFilms.slice(0, key).length / length);
+
+  // if (position < 1) {
+  //   position = 0;
+  //   console.log("test 1" + " " + position);
+  // } else {
+  //   let test = Math.round(position);
+  //   if (test > array.length - 1) {
+  //     console.log(test)
+  //     position = Math.floor(position);
+  //     console.log("test 2" + " " + position);
+  //   } else {
+  //     position = test;
+  //     console.log("test 3" + " " + position);
+  //   }
+  // }
 
   return {
     array,

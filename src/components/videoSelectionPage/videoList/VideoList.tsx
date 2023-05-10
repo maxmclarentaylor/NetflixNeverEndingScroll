@@ -10,8 +10,11 @@ export const VideoList = ({
   animation,
   testKey,
 }: VideoListType) => {
+  console.log(offSet)
   return (
-    <div className={`${offSet} ${styles.wrapperItem} ${animation}`}>
+    <div className={`${styles.wrapperItem} ${animation}`}
+    style={{transform: `translate3d(-${offSet}%, 0, 0)`}}
+    >
       {currentFilms.map((value, index) => {
         return (
           <img

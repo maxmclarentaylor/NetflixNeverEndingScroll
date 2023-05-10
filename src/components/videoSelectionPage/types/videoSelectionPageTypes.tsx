@@ -4,7 +4,7 @@ export type IndividualFilm = {
 };
 
 export type VideoListType = {
-  offSet: string;
+  offSet: number;
   currentFilms: IndividualFilm[];
   carouselItem: string;
   animation: string;

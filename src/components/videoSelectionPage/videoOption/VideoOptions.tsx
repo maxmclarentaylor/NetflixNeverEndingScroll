@@ -25,8 +25,8 @@ export const VideoOption = memo(function VideoOption({
 }: VideoOptionType) {
   const [allFilms, updateFilms] = useState<IndividualFilm[]>(imageArray);
 
-  const [clickbackwards, updateClickbackwards] = useState(0);
-  const [clickForwards, updateClickForwardss] = useState(0);
+  const [clickbackwards, updateClickBackwards] = useState(0);
+  const [clickForwards, updateClickForwards] = useState(0);
 
   const id = useMemo(() => {
     return uuidv4();
@@ -67,7 +67,7 @@ export const VideoOption = memo(function VideoOption({
         <div
           data-testid={testKey + " " + "back"}
           onClick={() => {
-            clickForwards > 0 ? updateClickbackwards(clickbackwards + 1) : null;
+            clickForwards > 0 ? updateClickBackwards(clickbackwards + 1) : null;
           }}
           className={`${styles.moveBackChevron}`}
         >
@@ -83,7 +83,7 @@ export const VideoOption = memo(function VideoOption({
         data-testid={testKey + " " + "forward"}
         className={`${styles.moveForwardsChevron}`}
         onClick={() => {
-          updateClickForwardss(clickForwards + 1);
+          updateClickForwards(clickForwards + 1);
         }}
       >
         <Image
