@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useThrottle } from "../customHooks/VideoSelectionThrottle";
 import { VideoPositionFlow } from "../videoPositionFlow/videoPositionFlow";
 import { VideoList } from "../videoList/VideoList";
+import { MoveBack, MoveForwards } from "../directions";
 import {
   correctAnimationStyle,
   selectCarouseWidth,
@@ -13,10 +14,7 @@ import {
   IndividualFilm,
   VideoOptionType,
 } from "../types/videoSelectionPageTypes";
-import chev from "../assets/chevron.png";
-import chevLeft from "../assets/chevron-left.png";
 import styles from "../styles/videoOption.module.scss";
-
 
 export const VideoOption = memo(function VideoOption({
   width,
@@ -49,8 +47,8 @@ export const VideoOption = memo(function VideoOption({
   }, [currentFilms]);
 
   const positionArray = useMemo(() => {
-    return videoPositionViewArray(currentFilms, allFilms);
-  }, [currentFilms, allFilms]);
+    return videoPositionViewArray(currentFilms, allFilms, forwards, moveBackwards, id);
+  }, [currentFilms, allFilms, forwards, moveBackwards, id]);
 
   const animation = useMemo(() => {
     return moveBackwards || forwards ? styles.animation : "";
@@ -64,35 +62,18 @@ export const VideoOption = memo(function VideoOption({
         style={{ opacity: clickForwards < 1 ? 1 : 0.7 }}
       ></div>
       {clickForwards > 0 && (
-        <div
-          data-testid={testKey + " " + "back"}
-          onClick={() => {
-            clickForwards > 0 ? updateClickBackwards(clickbackwards + 1) : null;
-          }}
-          className={`${styles.moveBackChevron}`}
-        >
-          <Image
-            src={chevLeft}
-            alt="Click back"
-            fill={true}
-            style={{ objectFit: "contain", opacity: clickForwards < 1 ? 0 : 1 }}
-          />
-        </div>
-      )}
-      <div
-        data-testid={testKey + " " + "forward"}
-        className={`${styles.moveForwardsChevron}`}
-        onClick={() => {
-          updateClickForwards(clickForwards + 1);
-        }}
-      >
-        <Image
-          src={chev}
-          alt="Click forward"
-          fill={true}
-          style={{ objectFit: "contain" }}
+        <MoveBack
+          testKey={testKey}
+          updateClickbackwards={updateClickBackwards}
+          clickForwards={clickForwards}
+          clickbackwards={clickbackwards}
         />
-      </div>
+      )}
+      <MoveForwards
+        testKey={testKey}
+        clickForwards={clickForwards}
+        updateClickForwards={updateClickForwards}
+      />
       <div
         className={`${styles.moveForwards} ${styles.directionAnimation}`}
       ></div>
