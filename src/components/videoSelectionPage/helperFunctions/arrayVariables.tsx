@@ -1,4 +1,9 @@
-import { backwardsVariablesObject, forwardObjectVariables} from '../types/videoSelectionPageTypes'
+import {
+  backwardsVariablesObject,
+  forwardObjectVariables,
+} from "../types/videoSelectionPageTypes";
+import { smallerArrayReturn } from "../helperFunctions/videoStylesHelpers";
+import { IndividualFilm } from "../types/videoSelectionPageTypes";
 
 const findWidth = (width: number): number => {
   if (window.innerWidth > 1400) width = 6;
@@ -9,12 +14,17 @@ const findWidth = (width: number): number => {
   return width;
 };
 
-export const forwardsVariables = (width: number): forwardObjectVariables => {
+export const forwardsVariables = (
+  currentFilms: IndividualFilm[],
+  allFilms: IndividualFilm[],
+  width: number
+): forwardObjectVariables => {
   if (width === 0) {
     width = findWidth(width);
   }
-  let newKeyForward = width;
-  let removeKeyForward = width + 1;
+  let marginOffset = smallerArrayReturn(currentFilms, allFilms, width);
+  let newKeyForward = marginOffset < 1 ? width : marginOffset;
+  let removeKeyForward = marginOffset < 1 ? width + 1 : marginOffset + 1;
   let correctArrayLength = width * 3 + 2;
 
   return {

@@ -10,7 +10,6 @@ export const VideoList = ({
   animation,
   testKey,
 }: VideoListType) => {
-  console.log(offSet)
   return (
     <div className={`${styles.wrapperItem} ${animation}`}
     style={{transform: `translate3d(-${offSet}%, 0, 0)`}}

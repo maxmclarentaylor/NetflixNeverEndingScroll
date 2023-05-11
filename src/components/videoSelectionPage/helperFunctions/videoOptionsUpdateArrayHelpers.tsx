@@ -72,9 +72,12 @@ export const moveVideoForwards = (
   width: number
 ): IndividualFilm[] => {
   const { newKeyForward, removeKeyForward, correctArrayLength } =
-    forwardsVariables(width);
+    forwardsVariables(currentFilms, allFilms, width);
 
   let key = allFilms.indexOf(currentFilms[currentFilms.length - 1]);
+
+  console.log(key + " " + "key")
+  console.log(removeKeyForward + " " + "removeKeyForward")
 
   let newArray = newArrayMoveForwards(
     allFilms,
@@ -84,10 +87,13 @@ export const moveVideoForwards = (
     currentFilms
   );
 
+  let test =  newArray.map((value) => value.title)
+  console.log(test)
   if (newArray.length === correctArrayLength) {
     return newArray;
   }
 
+  console.log("test 1")
   let number = correctArrayLength - newArray.length;
   return [...newArray, [...allFilms].slice(0, number)].flat();
 };

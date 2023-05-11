@@ -41,7 +41,7 @@ export const VideoOption = memo(function VideoOption({
   );
 
   const offSet = useMemo(() => {
-    return correctAnimationStyle(moveBackwards, forwards, currentFilms);
+    return correctAnimationStyle(moveBackwards, forwards, currentFilms, allFilms);
   }, [moveBackwards, forwards, currentFilms]);
 
   const carouselItem = useMemo(() => {
