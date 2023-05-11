@@ -92,28 +92,13 @@ export const videoPositionViewArray = (
     };
   }
   let length: number = (currentFilms.length - 2) / 3;
-  let array = new Array(Math.round(allFilms.length / length))
+  let array = new Array(Math.floor(allFilms.length / length))
     .fill(1)
     .map((value, index) => index + 1);
 
   let key = allFilms.indexOf(currentFilms[length + 1]);
-  key = key - (key % length) + 1;
+  key = key - (key % length);
   let position = Math.floor(allFilms.slice(0, key).length / length);
-
-  // if (position < 1) {
-  //   position = 0;
-  //   console.log("test 1" + " " + position);
-  // } else {
-  //   let test = Math.round(position);
-  //   if (test > array.length - 1) {
-  //     console.log(test)
-  //     position = Math.floor(position);
-  //     console.log("test 2" + " " + position);
-  //   } else {
-  //     position = test;
-  //     console.log("test 3" + " " + position);
-  //   }
-  // }
 
   return {
     array,
