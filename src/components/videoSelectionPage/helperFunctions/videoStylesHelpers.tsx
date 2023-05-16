@@ -4,44 +4,62 @@ import {
 } from "../types/videoSelectionPageTypes";
 import styles from "../styles/offsetValues.module.scss";
 
+const correctForwardAmount = (length: number, marginToStart: number) => {
+  if (marginToStart < 1) {
+    return length * 2 + 1;
+  }
+  return length + 1 + marginToStart;
+};
+
+const correctOffset = (
+  moveBackwards: boolean,
+  forwards: boolean,
+  length: number,
+  marginToStart: number
+) => {
+  return !moveBackwards && !forwards
+    ? Math.round((100 / length) * (length + 1))
+    : moveBackwards
+    ? Math.round(100 / length)
+    : Math.round((100 / length) * correctForwardAmount(length, marginToStart));
+};
+
+export const smallerArrayReturn = (
+  currentFilms: IndividualFilm[],
+  allFilms: IndividualFilm[],
+  length: number
+) => {
+  let startKey = currentFilms.length - 1 - length;
+  let newArray = currentFilms.slice(startKey, currentFilms.length - 1);
+  return newArray.indexOf(allFilms[0]);
+};
+
 export const correctAnimationStyle = (
   moveBackwards: boolean,
   forwards: boolean,
-  currentFilms: IndividualFilm[]
-): string => {
+  currentFilms: IndividualFilm[],
+  allFilms: IndividualFilm[]
+): number => {
   if (currentFilms.length === 20) {
-    return !moveBackwards && !forwards
-      ? styles.offSetDefault6Items
-      : moveBackwards
-      ? styles.offSetBackwards6Items
-      : styles.offSetForward6Items;
+    let marginToStart = smallerArrayReturn(currentFilms, allFilms, 6);
+    return correctOffset(moveBackwards, forwards, 6, marginToStart);
   }
   if (currentFilms.length === 17) {
-    return !moveBackwards && !forwards
-      ? styles.offSetDefault5Items
-      : moveBackwards
-      ? styles.offSetBackwards5Items
-      : styles.offSetForward5Items;
+    let marginToStart = smallerArrayReturn(currentFilms, allFilms, 5);
+    return correctOffset(moveBackwards, forwards, 5, marginToStart);
   }
   if (currentFilms.length === 14) {
-    return !moveBackwards && !forwards
-      ? styles.offSetDefaul4Items
-      : moveBackwards
-      ? styles.offSetBackwards4Items
-      : styles.offSetForward4Items;
+    let marginToStart = smallerArrayReturn(currentFilms, allFilms, 4);
+    return correctOffset(moveBackwards, forwards, 4, marginToStart);
   }
   if (currentFilms.length === 11) {
-    return !moveBackwards && !forwards
-      ? styles.offSetDefault3Items
-      : moveBackwards
-      ? styles.offSetBackwards3Items
-      : styles.offSetForward3Items;
+    let marginToStart = smallerArrayReturn(currentFilms, allFilms, 3);
+
+    return correctOffset(moveBackwards, forwards, 3, marginToStart);
   }
-  return !moveBackwards && !forwards
-    ? styles.offSetDefault2Items
-    : moveBackwards
-    ? styles.offSetBackwards2Items
-    : styles.offSetForward2Items;
+  let marginToStart = smallerArrayReturn(currentFilms, allFilms, 3);
+
+  return correctOffset(moveBackwards, forwards, 2, marginToStart);
 };
 
 export const selectCarouseWidth = (currentFilms: IndividualFilm[]): string => {
@@ -141,15 +159,17 @@ export const videoPositionViewArray = (
       position: 0,
     };
   }
-  if (currentFilms.length !== currentLength[id]) {
-    return newArrayLength(currentFilms, allFilms, id);
-  } else {
-    return updateCurrentArrayPosition(
-      currentFilms,
-      allFilms,
-      id,
-      forwards,
-      moveBackwards
-    );
-  }
+  let length: number = (currentFilms.length - 2) / 3;
+  let array = new Array(Math.floor(allFilms.length / length))
+    .fill(1)
+    .map((value, index) => index + 1);
+
+  let key = allFilms.indexOf(currentFilms[length + 1]);
+  key = key - (key % length);
+  let position = Math.floor(allFilms.slice(0, key).length / length);
+
+  return {
+    array,
+    position,
+  };
 };

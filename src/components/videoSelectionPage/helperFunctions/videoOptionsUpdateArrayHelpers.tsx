@@ -72,7 +72,7 @@ export const moveVideoForwards = (
   width: number
 ): IndividualFilm[] => {
   const { newKeyForward, removeKeyForward, correctArrayLength } =
-    forwardsVariables(width);
+    forwardsVariables(currentFilms, allFilms, width);
 
   let key = allFilms.indexOf(currentFilms[currentFilms.length - 1]);
 

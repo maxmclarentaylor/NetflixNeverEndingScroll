@@ -23,7 +23,7 @@ export const VideoOption = memo(function VideoOption({
 }: VideoOptionType) {
   const [allFilms, updateFilms] = useState<IndividualFilm[]>(imageArray);
 
-  const [clickbackwards, updateClickbackwards] = useState(0);
+  const [clickbackwards, updateClickBackwards] = useState(0);
   const [clickForwards, updateClickForwards] = useState(0);
 
   const id = useMemo(() => {
@@ -39,7 +39,7 @@ export const VideoOption = memo(function VideoOption({
   );
 
   const offSet = useMemo(() => {
-    return correctAnimationStyle(moveBackwards, forwards, currentFilms);
+    return correctAnimationStyle(moveBackwards, forwards, currentFilms, allFilms);
   }, [moveBackwards, forwards, currentFilms]);
 
   const carouselItem = useMemo(() => {
@@ -64,7 +64,7 @@ export const VideoOption = memo(function VideoOption({
       {clickForwards > 0 && (
         <MoveBack
           testKey={testKey}
-          updateClickbackwards={updateClickbackwards}
+          updateClickbackwards={updateClickBackwards}
           clickForwards={clickForwards}
           clickbackwards={clickbackwards}
         />
